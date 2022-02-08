@@ -103,12 +103,14 @@ export default class App extends Component {
   };
 
   filterData(filterStatus) {
-    if (filterStatus === 'all') return this.state.todoData;
-    if (filterStatus === 'completed') {
-      return this.state.todoData.filter(({ completed }) => completed);
-    }
-    if (filterStatus === 'active') {
-      return this.state.todoData.filter(({ completed }) => !completed);
+    switch (filterStatus) {
+      case 'completed':
+        return this.state.todoData.filter(({ completed }) => completed);
+      case 'active':
+        return this.state.todoData.filter(({ completed }) => !completed);
+      case 'all':
+      default:
+        return this.state.todoData;
     }
   }
 
