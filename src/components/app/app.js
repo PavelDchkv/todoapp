@@ -9,9 +9,9 @@ export default class App extends Component {
   maxId = 132;
   state = {
     todoData: [
-      this.createTodoItem('Throw shoe'),
-      this.createTodoItem('Read War and Peace'),
-      { ...this.createTodoItem('Drink Coffee'), completed: true },
+      this.createTodoItem('Test1', 55000),
+      this.createTodoItem('Test2'),
+      { ...this.createTodoItem('Test3', 25000000), completed: true },
     ],
     filterStatus: 'all',
   };
@@ -20,10 +20,18 @@ export default class App extends Component {
     return this.state.todoData.findIndex((el) => el.id === id);
   }
 
-  changeTask = (id, newLabel) => {
+  changeTask = (id, nameProp, newValue) => {
     this.setState(({ todoData }) => {
       const index = this.findItemById(id);
-      const newItem = { ...todoData[index], label: newLabel, editing: false };
+
+      let newItem;
+      switch (nameProp) {
+        case 'label':
+          newItem = { ...todoData[index], label: newValue, editing: false };
+          break;
+        default:
+          newItem = { ...todoData[index], [nameProp]: newValue };
+      }
 
       const newArr = [...todoData.slice(0, index), newItem, ...todoData.slice(index + 1)];
 
@@ -60,20 +68,21 @@ export default class App extends Component {
     });
   };
 
-  createTodoItem(label) {
+  createTodoItem(label, timer = 0) {
     return {
       label,
       id: this.maxId++,
       completed: false,
       editing: false,
       timeCreating: Date.now(),
+      timer: timer,
     };
   }
 
-  addTask = (label) => {
+  addTask = (label, timer = 0) => {
     this.setState(({ todoData }) => {
       return {
-        todoData: [...todoData, this.createTodoItem(label)],
+        todoData: [...todoData, this.createTodoItem(label, timer)],
       };
     });
   };
