@@ -42,11 +42,12 @@ export default class Task extends Component {
 
   updateTimer = () => {
     const { id, onChanged, timer } = this.props;
-    onChanged(id, 'timer', timer + 1000);
+    onChanged(id, 'timer', timer - 1000);
+    if (timer === 1000) this.onPause();
   };
 
   onPlay = () => {
-    if (this.state.intervalId !== null || this.props.completed) return;
+    if (this.state.intervalId !== null || this.props.completed || !this.props.timer) return;
     const intervalId = setInterval(this.updateTimer, 1000);
     this.setState({
       intervalId,

@@ -10,7 +10,7 @@ export default class App extends Component {
   state = {
     todoData: [
       this.createTodoItem('Test1', 55000),
-      this.createTodoItem('Test2'),
+      this.createTodoItem('Test2', 5000),
       { ...this.createTodoItem('Test3', 25000000), completed: true },
     ],
     filterStatus: 'all',
